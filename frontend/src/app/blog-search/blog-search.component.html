@@ -1,0 +1,35 @@
+<div>
+  <h2>Search Blogs</h2>
+  <form (ngSubmit)="onSearch()">
+    <div class="form-control">
+      <label for="category">Category:</label>
+      <input [(ngModel)]="category" type="text" name="category" id="category" />
+    </div>
+    <div class="form-control">
+      <label for="durationFrom">From:</label>
+      <input [(ngModel)]="durationFrom" type="text" name="durationFrom" id="durationFrom" />
+    </div>
+    <div class="form-control">
+      <label for="durationTo">To:</label>
+      <input [(ngModel)]="durationTo" type="text" name="durationTo" id="durationTo" />
+    </div>
+    <button type="submit">Search</button>
+  </form>
+  <div>
+    @if (blogs) {
+      <h3>Blogs</h3>
+      <ul>
+        @for (blog of blogs; track $index) {
+          <li>
+            <h4>{{blog.blogName}}</h4>
+            <!-- Display only first 100 characters of the article -->
+            <p>{{blog.article.substring(0,100)}}</p>
+            <p><strong>Author:</strong> {{ blog.authorName }}</p>
+            <p><strong>Category:</strong> {{ blog.category }}</p>
+            <p><strong>Date:</strong> {{ blog.timestamp | date }}</p>
+          </li>
+        }
+      </ul>
+    }
+  </div>
+</div>
