@@ -1,0 +1,9 @@
+functions:
+  registerUser:
+    name: ${self:service}-register-user
+    handler: dist/src/handler.registerUserHandler
+    events:
+      - http:
+          path: user/register
+          method: post
+          cors: ${self:cors}

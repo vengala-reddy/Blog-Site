@@ -1,0 +1,6 @@
+environment:
+  ENVIROMENT: ${self:provider.stage}
+  REGION: ${self:provider.region}
+  TABLE_NAME: ${self:tableNames}
+  DYNAMODB_ENDPOINT: "http://dynamodb:8000"
+  

@@ -1,0 +1,52 @@
+service: blog-site-backend
+package:
+  excludeDevDependencies: true
+
+frameworkVersion: "3"
+
+cors:
+    origins: "*"
+    headers:
+      - content-type
+      - content-disposition
+      - x-amz-date
+      - authorization
+      - x-api-Key
+      - x-amz-security-token
+      - x-amz-user-agent
+      - x-b3-spanid
+      - x-b3-traceid
+      - x-amz-metadata-directive
+
+tableNames:
+  posts: ${self:service}-blogs-${self:provider.stage}
+  users: ${self:service}-users-${self:provider.stage}
+
+build:
+    method: bundle
+    sourceMaps: true
+    include:
+      - 'dist/**'
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  stage: dev
+  region: us-east-1
+  memorySize: 1024
+  timeout: 30
+  deploymentBucket:
+    name: ${self:service}-deployment-bucket
+    serverSideEncryption: AES256
+  iam:
+    role:
+      statements: ${file(./serverless-aws-iam.yml):iamRoleStatements}
+  environment: ${file(./serverless-aws-environment.yml):environment}
+
+plugins:
+  - serverless-deployment-bucket
+  - serverless-offline
+
+functions: ${file(./serverless-aws-functions.yml):functions}
+
+resources: ${file(./serverless-aws-resources.yml):resources}

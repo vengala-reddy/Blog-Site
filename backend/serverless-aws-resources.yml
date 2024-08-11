@@ -1,0 +1,20 @@
+resources:
+  Description: "Resources for the blog site backend"
+  Resources:
+    ApiGatewayRestApi:
+      Type: AWS::ApiGateway::RestApi
+      Properties:
+        Name: ${self:service}-apis
+        Description: 'API Gateway for the blog site backend'
+    ApiGatewayResponse:
+      Type: AWS::ApiGateway::GatewayResponse
+      Properties:
+        ResponseParameters:
+          "gatewayresponse.header.Access-Control-Allow-Origin": "'*'"
+          "gatewayresponse.header.Access-Control-Allow-Headers": "'*'"
+        ResponseTemplates:
+          application/json: "{\n     \"error\": $context.error.messageString,\n     \"type\":  \"$context.error.responseType\",\n     \"stage\":  \"$context.stage\",\n     \"resourcePath\":  \"$context.resourcePath\",\n     \"status\": \"'401'\"\n}"
+        ResponseType: UNAUTHORIZED
+        RestApiId:
+          Ref: ApiGatewayRestApi
+        StatusCode: '401'

@@ -15,7 +15,7 @@ app.use(express.json());
 
 // Enable CORS
 const corsOptions = {
-  origin: "http://localhost:4200",
+  origin: ["http://localhost:4200", "http://localhost:4201", "https://blog-site-frontend.s3.amazonaws.com"],
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
